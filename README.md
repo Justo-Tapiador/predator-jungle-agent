@@ -12,7 +12,7 @@
 
 <div align="center">
 <div style="font-size:18pt;text-align:center;">🚨<b>WARNING: This Predator Agent needs  to be <br> trained in order to function correctly! </b>🚨</div>
-<img src="web/public/predator-5.jpg" alt="Train me Please!"  width="512"/>
+<img src="https://raw.githubusercontent.com/justo-tapiador/predator-jungle-agent/main/web/public/predator-5.jpg" alt="Train me Please!"  width="512"/>
 </div>
 
 ## What's New in v2.0
