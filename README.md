@@ -1,4 +1,4 @@
-# PREDATOR v2.0
+# PREDATOR JUNGLE v2.0
 
 ### Praxic Reinforcement and Extinction-Driven Agentic Task Orchestrator and Realizer
 
