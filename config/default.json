@@ -1,0 +1,69 @@
+{
+  "agent": {
+    "version": "2.0.0",
+    "dModel": 64,
+    "nHeads": 4,
+    "dFF": 256,
+    "maxSteps": 200
+  },
+  "ajn": {
+    "betaM": 0.85,
+    "lambdaUp": 0.30,
+    "delta": 0.02,
+    "thetaSat": 0.75,
+    "tau": 20,
+    "eta": 0.05,
+    "praximDim": 64
+  },
+  "budget": {
+    "defaultTokens": 50000,
+    "defaultEnergy": 1.0,
+    "defaultWallClockMs": 300000
+  },
+  "cascade": {
+    "rhoWarn": 0.35,
+    "rhoModerate": 0.50,
+    "rhoCritical": 0.65,
+    "pollMs": 500,
+    "selfHealing": true
+  },
+  "memory": {
+    "storageDir": "./data/memory",
+    "maxEpisodic": 1000,
+    "maxWorking": 10,
+    "enablePersistence": true
+  },
+  "safety": {
+    "safetyLevel": "standard",
+    "protectedPaths": ["/etc", "/root", "/sys", "/proc"],
+    "maxFileSize": 10485760,
+    "rateLimits": { "perMinute": 60, "perHour": 500 }
+  },
+  "training": {
+    "epochsI": 10,
+    "epochsII_T1": 5,
+    "epochsII_T2": 5,
+    "epochsII_T3": 5,
+    "epochsIII": 8,
+    "epochsIV": 6,
+    "batchSize": 32,
+    "enableCheckpoints": true,
+    "earlyStoppingPatience": 5
+  },
+  "tools": {
+    "timeout": 30000,
+    "maxRetries": 2,
+    "maxConcurrent": 3
+  },
+  "llm": {
+    "provider": "none",
+    "model": "default",
+    "temperature": 0.7,
+    "maxTokens": 2048
+  },
+  "logging": {
+    "level": "info",
+    "enableConsole": true,
+    "enableFile": false
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "safety": {
+    "safetyLevel": "strict"
+  },
+  "logging": {
+    "level": "warn",
+    "enableConsole": true,
+    "enableFile": true
+  },
+  "tools": {
+    "timeout": 15000,
+    "maxRetries": 1,
+    "maxConcurrent": 5
+  },
+  "budget": {
+    "defaultTokens": 100000,
+    "defaultEnergy": 2.0
+  }
+}

@@ -1,0 +1,47 @@
+# PREDATOR Agent - Docker Compose
+version: '3.8'
+
+services:
+  predator:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: predator-agent
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - LLM_PROVIDER=${LLM_PROVIDER:-none}
+      - LLM_MODEL=${LLM_MODEL:-default}
+      - LLM_ENDPOINT=${LLM_ENDPOINT:-http://localhost:11434}
+      - SAFETY_LEVEL=${SAFETY_LEVEL:-standard}
+      - MEMORY_DIR=/app/data/memory
+      - TRAINING_CHECKPOINT_DIR=/app/checkpoints
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    volumes:
+      - predator-memory:/app/data/memory
+      - predator-checkpoints:/app/checkpoints
+      - predator-logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/status').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # Optional: Ollama for local LLM inference
+  ollama:
+    image: ollama/ollama:latest
+    container_name: predator-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    profiles:
+      - llm
+
+volumes:
+  predator-memory:
+  predator-checkpoints:
+  predator-logs:
+  ollama-data:

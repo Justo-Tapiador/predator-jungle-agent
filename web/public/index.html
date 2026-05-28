@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PREDATOR — Web Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <!-- Chart.js for real-time charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- ═══════════════════════ HEADER ═══════════════════════ -->
+  <header id="header">
+    <div class="header-brand">
+      <div class="logo">
+        <span class="logo-icon">&#9881;</span>
+        <div>
+          <h1>PREDATOR</h1>
+          <p class="subtitle">Praxic Reinforcement &amp; Extinction-Driven Agentic Task Orchestrator</p>
+        </div>
+      </div>
+    </div>
+    <div class="header-status">
+      <div class="status-indicator" id="connectionStatus">
+        <span class="dot disconnected"></span>
+        <span class="status-text">Disconnected</span>
+      </div>
+      <div class="agent-id" id="agentId">Agent: —</div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════ NAVIGATION ═══════════════════════ -->
+  <nav id="nav">
+    <button class="nav-btn active" data-panel="overview">Overview</button>
+    <button class="nav-btn" data-panel="tasks">Task Control</button>
+    <button class="nav-btn" data-panel="metrics">Metrics</button>
+    <button class="nav-btn" data-panel="cascade">Cascade Monitor</button>
+    <button class="nav-btn" data-panel="memory">Memory</button>
+    <button class="nav-btn" data-panel="events">Event Log</button>
+  </nav>
+
+  <!-- ═══════════════════════ MAIN CONTENT ═══════════════════════ -->
+  <main id="main">
+
+    <!-- ──────── OVERVIEW PANEL ──────── -->
+    <section id="panel-overview" class="panel active">
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <span class="kpi-label">Status</span>
+          <span class="kpi-value" id="kpi-status">—</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Tasks Completed</span>
+          <span class="kpi-value" id="kpi-tasks">0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Cascade Events</span>
+          <span class="kpi-value" id="kpi-cascade">0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Safety Blocks</span>
+          <span class="kpi-value" id="kpi-safety">0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Avg Quality</span>
+          <span class="kpi-value" id="kpi-quality">—</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Uptime</span>
+          <span class="kpi-value" id="kpi-uptime">—</span>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <h3>Task Quality Over Time</h3>
+          <canvas id="chart-quality"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Step Progress</h3>
+          <canvas id="chart-progress"></canvas>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <h3>Cascade Risk History</h3>
+          <canvas id="chart-cascade-risk"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Token/Energy Usage</h3>
+          <canvas id="chart-resource-usage"></canvas>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-card">
+          <h3>System Modules</h3>
+          <table class="module-table" id="module-table">
+            <thead>
+              <tr><th>Module</th><th>Status</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="info-card">
+          <h3>Recent History</h3>
+          <div class="history-list" id="history-list">
+            <p class="placeholder">No tasks executed yet.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────── TASK CONTROL PANEL ──────── -->
+    <section id="panel-tasks" class="panel">
+      <div class="task-control-grid">
+        <div class="card">
+          <h3>Submit Directive</h3>
+          <div class="form-group">
+            <label for="directive-input">Directive String</label>
+            <textarea id="directive-input" rows="4" placeholder="e.g., Analyze the dataset and produce a summary report"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="budget-input">Resource Budget (JSON, optional)</label>
+            <textarea id="budget-input" rows="2" placeholder='{"maxTokens": 5000}'></textarea>
+          </div>
+          <button class="btn btn-primary" id="btn-execute">Execute Task</button>
+        </div>
+
+        <div class="card">
+          <h3>Submit Task Chain</h3>
+          <div class="form-group">
+            <label for="chain-input">Directives (one per line)</label>
+            <textarea id="chain-input" rows="6" placeholder="Step 1: Load data&#10;Step 2: Process records&#10;Step 3: Generate report"></textarea>
+          </div>
+          <button class="btn btn-secondary" id="btn-chain">Execute Chain</button>
+        </div>
+
+        <div class="card">
+          <h3>Owner Feedback</h3>
+          <div class="form-group">
+            <label for="feedback-input">Feedback (when agent escalates)</label>
+            <textarea id="feedback-input" rows="3" placeholder='{"alignment": 0.8, "instruction": "Continue with caution"}'></textarea>
+          </div>
+          <button class="btn btn-warning" id="btn-feedback">Send Feedback</button>
+        </div>
+
+        <div class="card">
+          <h3>Quick Actions</h3>
+          <div class="action-buttons">
+            <button class="btn btn-accent" id="btn-serialize">Serialize State</button>
+            <button class="btn btn-accent" id="btn-train">Start Training</button>
+            <button class="btn btn-danger" id="btn-shutdown">Shutdown Agent</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card full-width">
+        <h3>Current Task</h3>
+        <div id="current-task-display">
+          <p class="placeholder">No task currently running.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────── METRICS PANEL ──────── -->
+    <section id="panel-metrics" class="panel">
+      <div class="metrics-grid">
+        <div class="card">
+          <h3>Counters</h3>
+          <div class="metric-table-wrap">
+            <table class="metric-table" id="metrics-counters">
+              <thead><tr><th>Name</th><th>Value</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Gauges</h3>
+          <div class="metric-table-wrap">
+            <table class="metric-table" id="metrics-gauges">
+              <thead><tr><th>Name</th><th>Value</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Histograms</h3>
+          <div class="metric-table-wrap">
+            <table class="metric-table" id="metrics-histograms">
+              <thead><tr><th>Name</th><th>Count</th><th>Mean</th><th>P50</th><th>P95</th><th>P99</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Timers</h3>
+          <div class="metric-table-wrap">
+            <table class="metric-table" id="metrics-timers">
+              <thead><tr><th>Name</th><th>Count</th><th>Mean (ms)</th><th>Total (ms)</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header-row">
+          <h3>Metrics Time Series</h3>
+          <button class="btn btn-small" id="btn-metrics-reset">Reset Metrics</button>
+        </div>
+        <canvas id="chart-metrics-timeseries"></canvas>
+      </div>
+    </section>
+
+    <!-- ──────── CASCADE MONITOR PANEL ──────── -->
+    <section id="panel-cascade" class="panel">
+      <div class="cascade-grid">
+        <div class="card">
+          <h3>Cascade Thresholds</h3>
+          <div class="threshold-display" id="cascade-thresholds"></div>
+        </div>
+        <div class="card">
+          <h3>Layer Risk Trends</h3>
+          <div id="layer-risk-trends">
+            <p class="placeholder">No layer data available yet.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Cascade Risk Timeline</h3>
+        <canvas id="chart-cascade-detail"></canvas>
+      </div>
+      <div class="cascade-grid">
+        <div class="card">
+          <h3>Extinction Log</h3>
+          <div class="log-list" id="extinction-log">
+            <p class="placeholder">No extinctions recorded.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Intervention History</h3>
+          <div class="log-list" id="intervention-log">
+            <p class="placeholder">No interventions recorded.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────── MEMORY PANEL ──────── -->
+    <section id="panel-memory" class="panel">
+      <div class="card">
+        <h3>Memory Recall</h3>
+        <div class="form-group">
+          <input type="text" id="memory-query" placeholder="Search memory..." class="input-wide">
+          <button class="btn btn-primary" id="btn-memory-search">Search</button>
+        </div>
+        <div id="memory-results">
+          <p class="placeholder">Enter a query to search agent memory.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────── EVENT LOG PANEL ──────── -->
+    <section id="panel-events" class="panel">
+      <div class="card full-width">
+        <div class="card-header-row">
+          <h3>Real-Time Event Stream</h3>
+          <div>
+            <button class="btn btn-small" id="btn-clear-events">Clear</button>
+            <label class="toggle-label">
+              <input type="checkbox" id="auto-scroll" checked> Auto-scroll
+            </label>
+          </div>
+        </div>
+        <div class="event-log" id="event-log"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+  <footer id="footer">
+    <span>PREDATOR v2.0 — Agentic AI System</span>
+    <span id="footer-time"></span>
+  </footer>
+
+  <!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

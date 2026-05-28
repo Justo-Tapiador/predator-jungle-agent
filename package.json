@@ -1,0 +1,75 @@
+{
+  "name": "predator-jungle-agent",
+  "version": "2.0.0",
+  "description": "PREDATOR – Praxic Reinforcement and Extinction-Driven Agentic Task Orchestrator and Realizer. A Deep Agentic AI system built on the Artificial Junky Neuron (AJN) framework by Justo Tapiador García (UA). Enhanced v2.0 with real transformers, persistent memory, LLM integration, safety guardrails, and plugin architecture.",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "predator": "./scripts/cli.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "cli": "node scripts/cli.js",
+    "web": "node web/server.js",
+    "test": "node --experimental-vm-modules tests/predator.test.js",
+    "test:unit": "node --experimental-vm-modules tests/unit/run.js",
+    "test:integration": "node --experimental-vm-modules tests/integration/run.js",
+    "lint": "eslint src/ --ext .js",
+    "demo": "node scripts/cli.js demo",
+    "train": "node scripts/cli.js train",
+    "benchmark": "node scripts/benchmark.js",
+    "checkpoint": "node scripts/cli.js checkpoint",
+    "docker:build": "docker build -t predator-jungle-agent .",
+    "docker:run": "docker run -p 3000:3000 -v $(pwd)/data:/app/data predator-jungle-agent"
+  },
+  "keywords": [
+    "ai",
+    "artificial-intelligence",
+    "agentic-ai",
+    "junky-neuron",
+    "AJN",
+    "deep-agentic-flow",
+    "autonomous-agent",
+    "reinforcement-learning",
+    "intrinsic-motivation",
+    "predator",
+    "transformer",
+    "self-attention",
+    "persistent-memory",
+    "safety-guardrails",
+    "plugin-architecture",
+    "LLM-integration"
+  ],
+  "author": {
+    "name": "Based on Agentic Theory by Justo Tapiador García",
+    "affiliation": "Universidad de Alicante (UA)",
+    "url": "https://github.com/Justo-Tapiador/predator-jungle-agent",
+    "email":"justo.tapiador@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.1",
+    "inquirer": "^9.2.15",
+    "express": "^4.18.3",
+    "ws": "^8.16.0",
+    "uuid": "^9.0.0",
+    "mathjs": "^13.0.0",
+    "eventemitter3": "^5.0.1",
+    "pino": "^9.0.0",
+    "pino-pretty": "^11.0.0",
+    "dotenv": "^16.4.5",
+    "axios": "^1.6.8",
+    "zod": "^3.23.0",
+    "z-ai-web-dev-sdk": "latest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.57.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
